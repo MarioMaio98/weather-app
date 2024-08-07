@@ -30,8 +30,8 @@ interface City {
   styleUrls: ['./weather.component.css'],
 })
 export class WeatherComponent implements OnInit {
-  cityCtrl = new FormControl<string | City>(''); // Modificato il tipo di FormControl
-  filteredCities: Observable<City[]> = new Observable<City[]>(); // Inizializzato come Observable
+  cityCtrl = new FormControl<City | string>(''); 
+  filteredCities: Observable<City[]> = new Observable<City[]>(); 
   city: string = '';
   country: string = '';
   weather: any = null;
@@ -49,12 +49,6 @@ export class WeatherComponent implements OnInit {
         }
       })
     );
-    this.cityCtrl.valueChanges.subscribe(value => {
-      if (typeof value === 'string') {
-        this.filteredCities = this._weatherService.getCitySuggestion(value);
-      }
-    });
-
   }
 
   getDate(str: string): string {
@@ -75,17 +69,18 @@ export class WeatherComponent implements OnInit {
   }
 
   displayFn(city?: City): string {
-    if (!city  || !city.country || !city.name) {
-      return ''
+    if (!city) {
+      return '';
     }
-    else{return city ? `${city.name}, ${city.country}`: '';}
-    
+    console.log('displayFn city:', city);
+    return `${city.name || 'Unknown city'}, ${city.country || 'Unknown country'}`;
   }
 
-  onCitySelected(event: MatAutocompleteSelectedEvent): void { //Questa funzione serve per accettare la città suggerita da displayFn
+  onCitySelected(event: MatAutocompleteSelectedEvent): void {
     const selectedCity = event.option.value as City;
-    this.cityCtrl.setValue(selectedCity.name); // Modificato per impostare il nome della città
-    this.city = selectedCity.name; // Aggiorna la variabile locale city
-    this.country = selectedCity.country; // Aggiorna la variabile locale country
+    console.log('Selected city:', selectedCity);
+    this.cityCtrl.setValue(selectedCity);
+    this.city = selectedCity.name; 
+    this.country = selectedCity.country; 
   }
 }
