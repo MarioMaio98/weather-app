@@ -75,7 +75,11 @@ export class WeatherComponent implements OnInit {
   }
 
   displayFn(city?: City): string {
-    return city ? `${city.name}, ${city.country}`: '';
+    if (!city  || !city.country || !city.name) {
+      return ''
+    }
+    else{return city ? `${city.name}, ${city.country}`: '';}
+    
   }
 
   onCitySelected(event: MatAutocompleteSelectedEvent): void { //Questa funzione serve per accettare la città suggerita da displayFn
