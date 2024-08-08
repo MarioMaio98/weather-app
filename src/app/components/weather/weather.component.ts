@@ -59,6 +59,29 @@ export class WeatherComponent implements OnInit {
     return str.split(' ')[1];
   }
 
+  onEnter(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement?.value ?? '';
+  
+    if (typeof inputValue === 'string') {
+      this._weatherService.getCitySuggestion(inputValue).subscribe(cities => {
+        const matchingCity = cities.find(
+          city => city.name.toLowerCase() === inputValue.toLowerCase()
+        );
+  
+        if (matchingCity) {
+          this.city = matchingCity.name;
+          this.country = matchingCity.country;
+        } else {
+          // Handle case when city is not in suggestions
+          this.city = inputValue;
+          this.country = ''; // Set the country as needed
+        }
+  
+        this.displayWeather();
+      });
+    }
+  }
   displayWeather(): void {
     if (this.city && this.country) {
       this._weatherService.getWeather(this.city, this.country).subscribe(
