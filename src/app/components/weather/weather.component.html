@@ -9,10 +9,11 @@
         id="city-input"
           matInput
           placeholder="City"
+         
           [formControl]="cityCtrl"
           [matAutocomplete]="auto"
           aria-label="City"
-          (keydown.enter)="onEnter($event)"
+          
         />
         <mat-autocomplete
           #auto="matAutocomplete"

@@ -3,7 +3,7 @@ import { WeatherService } from '../../services/weather.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { debounceTime, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -59,7 +59,7 @@ export class WeatherComponent implements OnInit {
     return str.split(' ')[1];
   }
 
-  onEnter(event: Event): void {
+  onEnter(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement?.value ?? '';
   
@@ -68,14 +68,16 @@ export class WeatherComponent implements OnInit {
         const matchingCity = cities.find(
           city => city.name.toLowerCase() === inputValue.toLowerCase()
         );
-  
+        console.log(matchingCity)
         if (matchingCity) {
           this.city = matchingCity.name;
           this.country = matchingCity.country;
+
         } else {
-          // Handle case when city is not in suggestions
+          // gestisce i casi in cui la città non è nella lista
           this.city = inputValue;
-          this.country = ''; // Set the country as needed
+          this.country = ''; 
+          (err: any) => console.error(err)
         }
   
         this.displayWeather();
@@ -84,12 +86,14 @@ export class WeatherComponent implements OnInit {
   }
   displayWeather(): void {
     if (this.city && this.country) {
-      this._weatherService.getWeather(this.city, this.country).subscribe(
-        data => this.weather = data,
-        err => console.error(err)
-      );
-    }
+      this._weatherService.getWeather(this.city, this.country).subscribe((
+        data => {
+          this.weather = data
+        }
+      ),
+    (err) => {console.log(err)});
   }
+}
 
   displayFn(city?: City): string {
     if (!city) {

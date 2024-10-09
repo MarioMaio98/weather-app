@@ -12,7 +12,7 @@ interface City {
   providedIn: 'root', 
 }) 
 export class WeatherService {
-  private readonly apiKey: string = 'tour-api-key'; 
+  private readonly apiKey: string = '64dc838db2bc7d29a238f1864d2d15e0'; 
 
   constructor(private _http: HttpClient) {} 
 
