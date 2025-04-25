@@ -29,6 +29,7 @@ interface City {
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.css'],
 })
+
 export class WeatherComponent implements OnInit {
   cityCtrl = new FormControl<City | string>(''); 
   filteredCities: Observable<City[]> = new Observable<City[]>(); 
