@@ -37,6 +37,7 @@ weather.service.ts
 /libpeerconnection.log
 testem.log
 /typings
+.services.txt
 
 # System files
 .DS_Store
