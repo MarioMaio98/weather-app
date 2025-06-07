@@ -38,6 +38,7 @@ weather.service.ts
 testem.log
 /typings
 services.txt
+environment.ts
 
 # System files
 .DS_Store

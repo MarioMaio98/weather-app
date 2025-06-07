@@ -14,7 +14,6 @@ import { WeatherComponent } from './components/weather/weather.component';
   standalone: true,
   imports: [
     RouterOutlet,
-
     WeatherComponent,
     MatAutocompleteModule,
     MatInputModule,
